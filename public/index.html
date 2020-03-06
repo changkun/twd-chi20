@@ -1,0 +1,141 @@
+<!-- Copyright 2020 Changkun Ou. All rights reserved.
+Use of this source code is governed by a GPLv3
+license that can be found in the LICENSE file. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Walking Data</title>
+<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<style>
+body {
+    font-family: 'Lato', sans-serif;
+}
+.title {
+    margin-bottom: 50px;
+}
+.title h1 {
+    margin-bottom: 10px;
+    font-size: 2em;
+}
+.title h4 {
+    margin-top: 0px;
+    font-size: 1.3em;
+}
+.title img {
+    width: 100%;
+    margin-bottom: 20px;
+}
+.app {
+    position: absolute;
+    width: 320px;
+    text-align: center;
+    top: 30%;
+    left: 50%;
+    margin-left: -160px;
+    margin-top: -160px;
+}
+.app input {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.warning {
+    color: orangered;
+}
+.hide {
+    display: none;
+}
+.extern {
+    color: #006633;
+    position: absolute;
+    text-align: center;
+    bottom: 1%;
+    width: 900px;
+    left: 50%;
+    margin-left: -450px;
+}
+@media (max-width: 450px) {
+  .extern {
+    position: absolute;
+    text-align: center;
+    bottom: 1%;
+    width: 300px;
+    left: 50%;
+    margin-left: -150px;
+  }
+}
+a:visited {
+    color: #006633;
+}
+</style>
+</head>
+<body>
+
+<div id="form" class="app">
+<div class="title">
+<img src="./assets/cover.png" alt="The Walking Data" />
+<h4><a href="http://www.medien.ifi.lmu.de/forschung/publikationen/detail?pub=hollaender2020chi-lbw">All Fun and Games: Obtaining Critical Pedestrian Behavior Data from an Online Simulation</a></h4>
+<!-- <p><a href="http://thewalkingdata.medien.ifi.lmu.de/">Game</a></p> -->
+</div>
+<div id="main">
+    <div class="input-field">
+        <input id="email" type="email" class="validate"/>
+        <label for="email">I wanna receive updates about the research!</label>
+        <span class="helper-text" data-error="Please input a valid email address :)" data-success="Now you can click the button :)">Your email goes here</span>
+    </div>
+    <button id="sub" type="button" class="waves-effect waves-light btn green darken-1">Send More</button>
+</div>
+<div id="done" class="hide">
+    <p>We have sent you an email about our research</p>
+    <p>🚀</p>
+    <p>Please check your inbox</p>
+    <p>Thank you very much for your participating</p>
+    <p>😊</p>
+</div>
+</div>
+<div class="extern">&copy; 2020 <a href="https://www.medien.ifi.lmu.de/">LMU Munich Medieninformatik</a></div>
+<script>
+const form = document.getElementById('form')
+const inp = document.getElementById('email')
+const sub = document.getElementById('sub')
+const warn = document.getElementById('warning')
+sub.addEventListener('click', () => {
+    if (!validateEmail(inp.value)) {
+        console.log('invalid email, nothing to do.')
+        return
+    }
+
+    // send to the server
+    postData('/api/v1/email', {email: inp.value}).then(data => {
+        console.log('email sent')
+        document.getElementById('main').classList.add('hide')
+        document.getElementById('done').classList.remove('hide')
+    })
+})
+
+async function postData(url = '', data = {}) {
+  const response = await fetch(url, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {'Content-Type': 'application/json'},
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(data)
+  });
+  return await response.json(); // parses JSON response into native JavaScript objects
+}
+
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+</script>
+</body>
+</html>
