@@ -4,6 +4,8 @@ _Kai Holländer, Luca Schellenberg, Changkun Ou, Andreas Butz_
 
 Automated cars will need to observe pedestrians and react adequately to their behavior when driving in urban areas. Judging pedestrian behavior, however, is hard. When approaching it by machine learning methods, large amounts of training data is needed, which is costly and difficult to obtain, especially for critical situations. In order to provide such data, we have developed an online game inspired by Frogger, in which players have to cross streets. Accidents and critical situations are a natural part of the data produced in such a way without anybody getting hurt in reality. We present the design of our game and an analysis of the resulting data and its match to real world behavior observed in previous work. We found that behavior patterns in real and virtual environments correlated and argue that game data could be used to train machine learning algorithms for predicting real pedestrian's walking trajectories when crossing a road. This approach could be used in future automated vehicles to increase pedestrian safety.
 
+![](./public/assets/cover.png)
+
 ## About this repo
 
 This repository contains source code regarding a simple email subscription service.
